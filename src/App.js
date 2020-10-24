@@ -1,9 +1,15 @@
 import React, { Component } from "react";
-import "./App.css";
-import Navbar from "./components/navbar";
-import Counters from "./components/counters";
-import Movies from "./components/movies";
+import { Route, Redirect, Switch } from "react-router-dom";
 
+import Movies from "./components/movies";
+import Rentals from "./components/rentals";
+import Customers from "./components/customers";
+import NotFound from "./components/notFound";
+import Navbar from "./components/navbar";
+
+import "./App.css";
+import MovieForm from "./components/movieForm";
+import LoginForm from "./components/loginForm";
 class App extends Component {
   state = {
     counters: [
@@ -46,20 +52,30 @@ class App extends Component {
   render() {
     return (
       <>
-        <Navbar
+        {/* <Navbar
           totalCounters={
             this.state.counters.filter((counter) => counter.value > 0).length
           }
-        />
+        /> */}
+        <Navbar />
         <main className="container">
-          <Counters
+          {/* <Counters
             counters={this.state.counters}
             onReset={this.handleReset}
             onIncrement={this.handleIncrement}
             onDecrement={this.handleDecrement}
             onDelete={this.handleDelete}
-          />
-          <Movies />
+          /> */}
+          <Switch>
+            <Route path="/movies/:id" component={MovieForm} />
+            <Route path="/movies" component={Movies}></Route>
+            <Route path="/customers" component={Customers}></Route>
+            <Route path="/rentals" component={Rentals}></Route>
+            <Route path="/login" component={LoginForm} />
+            <Route path="/not-found" component={NotFound}></Route>
+            <Redirect from="/" exact to="/movies" />
+            <Redirect to="/not-found" />
+          </Switch>
         </main>
       </>
     );
